@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SAP Fiori - PR Reassignment Tool</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=72:wght@400;600;700&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: '72', 'Segoe UI', Arial, sans-serif;
+      background-color: #f5f6f7;
+      color: #32363a;
+      margin: 0;
+      padding: 0 0 60px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* SAP Fiori Shell Header */
+    .fiori-shell {
+      background-color: #354a5f;
+      color: #ffffff;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .fiori-shell h1 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+
+    .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+
+    /* Fiori Card Container */
+    .card {
+      background: #ffffff;
+      margin-top: 24px;
+      border-radius: 8px;
+      border: 1px solid #d9d9d9;
+      box-shadow: 0 0 2px 0 rgba(0,0,0,0.1), 0 2px 4px 0 rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+
+    .header {
+      background-color: #ffffff;
+      color: #32363a;
+      padding: 16px 24px;
+      border-bottom: 1px solid #ebebeb;
+    }
+    .header h2 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+      color: #1d2d3e;
+    }
+    .header p {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: #6a6d70;
+    }
+
+    .body { padding: 20px 24px; }
+
+    /* Fiori Form Labels & Controls */
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #556b82;
+      margin-bottom: 6px;
+      margin-top: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    label:first-child { margin-top: 0; }
+
+    input, select {
+      width: 100%;
+      padding: 9px 12px;
+      font-size: 14px;
+      border: 1px solid #89919a;
+      border-radius: 4px;
+      outline: none;
+      background: #ffffff;
+      font-family: inherit;
+      color: #32363a;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    input:hover, select:hover { border-color: #0a6ed1; }
+    input:focus, select:focus {
+      border-color: #0a6ed1;
+      box-shadow: 0 0 0 2px rgba(10,110,209,0.25);
+    }
+
+    /* Fiori Buttons */
+    button {
+      margin-top: 20px;
+      padding: 10px 16px;
+      background-color: #0a6ed1;
+      color: #ffffff;
+      border: 1px solid #0a6ed1;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background-color 0.15s ease;
+    }
+    button:hover { background-color: #085ca8; border-color: #085ca8; }
+
+    button.secondary {
+      background-color: #ffffff;
+      color: #0a6ed1;
+      border: 1px solid #0a6ed1;
+    }
+    button.secondary:hover {
+      background-color: #f0f4f8;
+      border-color: #085ca8;
+      color: #085ca8;
+    }
+
+    .btn-row { display: flex; gap: 12px; }
+    .btn-row button { width: 50%; }
+
+    /* Message Boxes / Fiori Status Strips */
+    #result, #lookupResult {
+      margin-top: 20px;
+      padding: 12px 16px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-family: Consolas, monospace;
+      white-space: pre-wrap;
+      display: none;
+    }
+    #result.show, #lookupResult.show { display: block; }
+    #result.success, #lookupResult.success {
+      background-color: #f1fdf6;
+      color: #107e3e;
+      border: 1px solid #b2f0c0;
+    }
+    #result.error, #lookupResult.error {
+      background-color: #fff5f5;
+      color: #bb0000;
+      border: 1px solid #ffb3b3;
+    }
+
+    /* Fiori Tab Navigation */
+    .tabs {
+      display: flex;
+      background-color: #fafafa;
+      border-bottom: 1px solid #d9d9d9;
+      padding: 0 24px;
+    }
+    .tab {
+      padding: 12px 20px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: #556b82;
+      border-bottom: 3px solid transparent;
+      transition: color 0.15s ease, border-color 0.15s ease;
+    }
+    .tab:hover { color: #0a6ed1; }
+    .tab.active {
+      color: #0a6ed1;
+      border-bottom-color: #0a6ed1;
+    }
+
+    /* Fiori Table Styling */
+    .table-scroll {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 8px;
+      white-space: nowrap;
+    }
+    th, td {
+      text-align: left;
+      min-width: 120px;
+      padding: 10px 14px;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    th {
+      background: #fafafa;
+      font-weight: 600;
+      color: #556b82;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+    }
+    tr:hover { background-color: #f0f4f8; }
+
+    .refresh-btn {
+      margin: 12px 24px 0;
+      padding: 6px 14px;
+      width: auto;
+      font-size: 12px;
+      background: #ffffff;
+      color: #0a6ed1;
+      border: 1px solid #d9d9d9;
+      border-radius: 4px;
+    }
+    .refresh-btn:hover { background: #f0f4f8; }
+  </style>
+</head>
+<body>
+
+  <!-- SAP Fiori Top Header Bar -->
+  <div class="fiori-shell">
+    <h1>SAP Procurement — Bottleneck Management</h1>
+  </div>
+
+  <div class="wrap">
+
+    <!-- Reassignment Card -->
+    <div class="card">
+      <div class="header">
+        <h2>PR Reassignment Tool</h2>
+        <p>Joule-Powered Automated SAP PR Reassignment</p>
+      </div>
+      <div class="body">
+        <label>Current Approver</label>
+        <select id="currentApprover">
+          <option value="">Loading registered approvers…</option>
+        </select>
+
+        <label>New Approver</label>
+        <select id="newApprover" disabled>
+          <option value="">Select a current approver first</option>
+        </select>
+
+        <label>Status Filter</label>
+        <select id="status">
+          <option value="pending">Pending</option>
+        </select>
+
+        <label>SAP Department</label>
+        <select id="department">
+          <option value="">Loading departments…</option>
+        </select>
+
+        <p>Reassignment is applied at the PR approval stage. PO, Gate Pass, and Issue Slip are downstream documents and are not changed by this action.</p>
+
+        <div class="btn-row">
+          <button onclick="reassign()">Reassign PRs</button>
+          <button class="secondary" onclick="viewByApprover()">View PRs by Approver</button>
+        </div>
+
+        <div id="result"></div>
+        <div id="lookupResult"></div>
+      </div>
+    </div>
+
+    <!-- Live Database Table Card -->
+    <div class="card">
+      <div class="header">
+        <h2>Live Database View</h2>
+        <p>See real-time data across all tables</p>
+      </div>
+      <div class="tabs" id="tabs">
+        <div class="tab active" data-table="PR_Master">PR_Master</div>
+        <div class="tab" data-table="Approval_Workflow">Approval_Workflow</div>
+        <div class="tab" data-table="Release_Quotes">Release_Quotes</div>
+        <div class="tab" data-table="Audit_Log">Audit_Log</div>
+      </div>
+      <button class="refresh-btn" onclick="loadTable(currentTable)">⟳ Refresh</button>
+      <div class="body" id="tableContainer">Loading...</div>
+    </div>
+
+  </div>
+
+  <script>
+    let currentTable = 'PR_Master';
+    const SERVICE_URL = '/pr';
+    let prRecords = [];
+    let approverProfiles = [];
+
+    async function reassign() {
+      const currentApprover = document.getElementById('currentApprover').value;
+      const newApprover = document.getElementById('newApprover').value;
+      const status = document.getElementById('status').value || 'pending';
+      const department = document.getElementById('department').value;
+      const resultBox = document.getElementById('result');
+
+      resultBox.className = '';
+      if (!currentApprover || !newApprover || !department) {
+        resultBox.classList.add('show', 'error');
+        resultBox.innerText = 'Select a current approver, a registered replacement, and an SAP department.';
+        return;
+      }
+      try {
+        const res = await fetchJson(SERVICE_URL + '/reassignPRs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ currentApprover, newApprover, status, department })
+        });
+        const data = res;
+        resultBox.classList.add('show', 'success');
+        resultBox.innerText = data.value || JSON.stringify(data, null, 2);
+        // Re-read the master data because the reassignment may change which
+        // approvers are available in each department.
+        await loadReferenceData();
+        loadTable(currentTable);
+      } catch (err) {
+        resultBox.classList.add('show', 'error');
+        resultBox.innerText = 'Error: ' + err.message;
+      }
+    }
+
+    async function viewByApprover() {
+      const currentApprover = document.getElementById('currentApprover').value;
+      const status = document.getElementById('status').value || 'pending';
+      const department = document.getElementById('department').value;
+      const lookupBox = document.getElementById('lookupResult');
+
+      lookupBox.className = '';
+      if (!currentApprover || !department) {
+        lookupBox.classList.add('show', 'error');
+        lookupBox.innerText = 'Select a Current Approver and SAP Department first.';
+        return;
+      }
+
+      try {
+        const data = await fetchJson(SERVICE_URL + '/PR_Master');
+        const rows = (data.value || []).filter(row =>
+          row.currentApprover === currentApprover && row.status === status && row.department === department
+        );
+
+        if (rows.length === 0) {
+          lookupBox.classList.add('show', 'error');
+          lookupBox.innerText = `No PRs found for "${currentApprover}" with status "${status}".`;
+          return;
+        }
+
+        let text = `Found ${rows.length} PR(s) for "${currentApprover}" in ${department} (${status}):\n\n`;
+        rows.forEach(r => {
+          text += `• ${r.prNumber} — ${r.description}\n`;
+        });
+        lookupBox.classList.add('show', 'success');
+        lookupBox.innerText = text;
+      } catch (err) {
+        lookupBox.classList.add('show', 'error');
+        lookupBox.innerText = 'Error: ' + err.message;
+      }
+    }
+
+    async function loadTable(name) {
+      currentTable = name;
+      const container = document.getElementById('tableContainer');
+      container.innerHTML = 'Loading...';
+      try {
+        const data = await fetchJson(SERVICE_URL + '/' + name);
+        const rows = data.value || [];
+        if (rows.length === 0) {
+          container.innerHTML = '<p>No records found.</p>';
+          return;
+        }
+        const cols = Object.keys(rows[0]).filter(k => k !== '@odata.etag');
+        let html = '<div class="table-scroll"><table><thead><tr>' +
+          cols.map(c => `<th>${c}</th>`).join('') +
+          '</tr></thead><tbody>';
+        rows.forEach(row => {
+          html += '<tr>' + cols.map(c => `<td>${row[c] ?? ''}</td>`).join('') + '</tr>';
+        });
+        html += '</tbody></table></div>';
+        container.innerHTML = html;
+      } catch (err) {
+        container.innerHTML = 'Error loading data: ' + err.message;
+      }
+    }
+
+    async function loadReferenceData() {
+      const currentSelect = document.getElementById('currentApprover');
+      const departmentSelect = document.getElementById('department');
+      const newApproverSelect = document.getElementById('newApprover');
+      try {
+        const prResponse = await fetchJson(SERVICE_URL + '/PR_Master');
+        prRecords = prResponse.value || [];
+        approverProfiles = buildApproverProfiles(prRecords);
+
+        currentSelect.innerHTML = '<option value="">Select an approver</option>';
+        approverProfiles.forEach(({ name }) => {
+          currentSelect.add(new Option(name, name));
+        });
+
+        departmentSelect.innerHTML = '<option value="">Select a current approver first</option>';
+        departmentSelect.disabled = true;
+        newApproverSelect.innerHTML = '<option value="">Select a current approver first</option>';
+        newApproverSelect.disabled = true;
+      } catch (err) {
+        currentSelect.innerHTML = '<option value="">Unable to load approvers</option>';
+        departmentSelect.innerHTML = '<option value="">Unable to load departments</option>';
+      }
+    }
+
+    function buildApproverProfiles(records) {
+      const profiles = new Map();
+      records.forEach(({ currentApprover, department }) => {
+        if (!currentApprover || !department) return;
+        const key = currentApprover.toLowerCase();
+        if (!profiles.has(key)) {
+          profiles.set(key, { name: currentApprover, departments: new Set() });
+        }
+        profiles.get(key).departments.add(department);
+      });
+      return [...profiles.values()].sort((first, second) => first.name.localeCompare(second.name));
+    }
+
+    function onCurrentApproverChange() {
+      const currentApprover = document.getElementById('currentApprover').value;
+      const departmentSelect = document.getElementById('department');
+      const newApproverSelect = document.getElementById('newApprover');
+      const profile = approverProfiles.find(candidate => candidate.name === currentApprover);
+
+      if (!profile) {
+        departmentSelect.innerHTML = '<option value="">Select a current approver first</option>';
+        departmentSelect.disabled = true;
+        newApproverSelect.innerHTML = '<option value="">Select a current approver first</option>';
+        newApproverSelect.disabled = true;
+        return;
+      }
+
+      const departments = [...profile.departments].sort();
+      departmentSelect.innerHTML = '';
+      departments.forEach(department => departmentSelect.add(new Option(department, department)));
+      // Most approvers have one department. If an approver is assigned to
+      // multiple departments, show only those departments and let the user
+      // select the applicable one.
+      departmentSelect.disabled = departments.length === 1;
+      updateNewApproverOptions();
+    }
+
+    function updateNewApproverOptions() {
+      const currentApprover = document.getElementById('currentApprover').value;
+      const selectedDepartment = document.getElementById('department').value;
+      const newApproverSelect = document.getElementById('newApprover');
+      const candidates = approverProfiles.filter(profile =>
+        profile.departments.has(selectedDepartment) && profile.name !== currentApprover
+      );
+
+      newApproverSelect.innerHTML = '<option value="">Select a replacement approver</option>';
+      candidates.forEach(({ name }) => newApproverSelect.add(new Option(name, name)));
+      newApproverSelect.disabled = candidates.length === 0;
+      if (!candidates.length) {
+        newApproverSelect.innerHTML = '<option value="">No other approver in this department</option>';
+      }
+    }
+
+    async function fetchJson(url, options) {
+      const response = await fetch(url, options);
+      const contentType = response.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        const body = await response.text();
+        throw new Error(`API returned ${response.status} ${response.statusText}, not JSON. ${body.slice(0, 120)}`);
+      }
+      const payload = await response.json();
+      if (!response.ok) {
+        throw new Error(payload.error || `API request failed with status ${response.status}.`);
+      }
+      return payload;
+    }
+
+    document.getElementById('tabs').addEventListener('click', (e) => {
+      if (!e.target.classList.contains('tab')) return;
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      e.target.classList.add('active');
+      loadTable(e.target.dataset.table);
+    });
+    document.getElementById('currentApprover').addEventListener('change', onCurrentApproverChange);
+    document.getElementById('department').addEventListener('change', updateNewApproverOptions);
+
+    loadReferenceData();
+    loadTable('PR_Master');
+  </script>
+</body>

@@ -1,0 +1,40 @@
+{
+  "_version": "1.58.0",
+  "sap.app": {
+    "id": "jk.cement.procurement",
+    "type": "application",
+    "title": "PR Bottleneck Reassignment",
+    "description": "Joule-powered PR reassignment dashboard for JK Cement Ltd.",
+    "applicationVersion": { "version": "1.0.0" },
+    "dataSources": {
+      "mainService": {
+        "uri": "/pr/", 
+        "type": "OData",
+        "settings": { "odataVersion": "4.0" }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": { "desktop": true, "tablet": true, "phone": true }
+  },
+  "sap.ui5": {
+    "rootView": {
+      "viewName": "jk.cement.procurement.view.Main",
+      "type": "XML",
+      "async": true,
+      "id": "app"
+    },
+    "dependencies": {
+      "minUI5Version": "1.120.0",
+      "libs": { "sap.m": {}, "sap.ui.layout": {} }
+    },
+    "models": {
+      "": {
+        "dataSource": "mainService",
+        "type": "sap.ui.model.odata.v4.ODataModel",
+        "settings": { "synchronizationMode": "None", "operationMode": "Server" }
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "node-js-bn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "srv/service.js",
+  "scripts": {
+    "start": "cds-serve",
+    "watch": "cds watch"
+  },
+  "dependencies": {
+    "@sap/cds": "^8.9.4",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@sap/cds-dk": "^8.9.19",
+    "nodemon": "1.18.4",
+    "sqlite3": "^6.0.1"
+  },
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sqlite",
+        "credentials": {
+          "database": ":memory:"
+        }
+      }
+    }
+  },
+  "keywords": []
+}
