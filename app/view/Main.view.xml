@@ -1,0 +1,173 @@
+<mvc:View controllerName="jk.cement.procurement.view.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    displayBlock="true"
+    height="100%">
+    <Page title="JK Cement Ltd. - PR Bottleneck Management" enableScrolling="true">
+        <content>
+            <VBox class="sapUiMediumMargin">
+                
+                <!-- Input Controls -->
+                <Title text="Joule AI Command Simulation (Bulk Reassignment)" level="H3" class="sapUiSmallMarginBottom"/>
+                <MessageStrip text="Reassignment is applied at the PR approval stage. PO, Gate Pass, and Issue Slip remain downstream reference documents and are not changed by this action." type="Information" showIcon="true" class="sapUiSmallMarginBottom"/>
+                
+                <FlexBox wrap="Wrap" alignItems="Center" class="sapUiSmallMarginBottom">
+                    <VBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                        <Label text="Current Approver (Outgoing)" required="true"/>
+                        <Select id="idCurrent" width="200px" items="{/Approvers}" change=".onCurrentApproverChange">
+                            <core:Item key="{name}" text="{name}"/>
+                        </Select>
+                    </VBox>
+                    
+                    <VBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                        <Label text="New Approver (Replacement)" required="true"/>
+                        <ComboBox id="idNew" width="200px" placeholder="Start typing a registered name" items="{/Approvers}">
+                            <core:Item key="{name}" text="{name}"/>
+                        </ComboBox>
+                    </VBox>
+                    
+                    <VBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                        <Label text="Status Filter"/>
+                        <Select id="idStatus" selectedKey="Pending" width="160px">
+                            <core:Item key="Pending" text="Pending"/>
+                            <core:Item key="Approved" text="Approved"/>
+                        </Select>
+                    </VBox>
+                    
+                    <VBox class="sapUiSmallMarginEnd sapUiSmallMarginBottom">
+                        <Label text="SAP Department" required="true"/>
+                        <Select id="idDepartment" width="200px" items="{/Departments}">
+                            <core:Item key="{name}" text="{name}"/>
+                        </Select>
+                    </VBox>
+                </FlexBox>
+
+                <HBox class="sapUiMediumMarginBottom">
+                    <Button text="Reassign PRs" type="Emphasized" press=".onReassign" icon="sap-icon://action" class="sapUiSmallMarginEnd"/>
+                    <Button text="Refresh Live Data" press=".onRefresh" icon="sap-icon://refresh"/>
+                </HBox>
+
+                <!-- Tables Section -->
+                <IconTabBar expanded="true" select=".onTabSelect">
+                    <items>
+                        <IconTabFilter text="PR Master" icon="sap-icon://document">
+                            <Table id="idPRMasterTable" items="{/PR_Master}" growing="true" growingThreshold="20">
+                                <headerToolbar>
+                                    <OverflowToolbar>
+                                        <Title text="PR Master" level="H4"/>
+                                        <ToolbarSpacer/>
+                                        <Text text="{counts>/prMaster}"/>
+                                    </OverflowToolbar>
+                                </headerToolbar>
+                                <columns>
+                                    <Column><Text text="PR Number"/></Column>
+                                    <Column><Text text="Description"/></Column>
+                                    <Column><Text text="SAP Department"/></Column>
+                                    <Column><Text text="Current Approver"/></Column>
+                                    <Column><Text text="Status"/></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="{prNumber}"/>
+                                            <Text text="{description}"/>
+                                            <Text text="{department}"/>
+                                            <ObjectStatus text="{currentApprover}" state="{= ${status} === 'Pending' ? 'Warning' : 'Success' }"/>
+                                            <Text text="{status}"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </IconTabFilter>
+
+                        <IconTabFilter text="Approval Workflows" icon="sap-icon://approval">
+                            <Table id="idWorkflowTable" items="{/Approval_Workflow}" growing="true" growingThreshold="20">
+                                <headerToolbar>
+                                    <OverflowToolbar>
+                                        <Title text="Approval Workflows" level="H4"/>
+                                        <ToolbarSpacer/>
+                                        <Text text="{counts>/workflow}"/>
+                                    </OverflowToolbar>
+                                </headerToolbar>
+                                <columns>
+                                    <Column><Text text="Approver Name"/></Column>
+                                    <Column><Text text="Tier"/></Column>
+                                    <Column><Text text="Status"/></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="{approverName}"/>
+                                            <Text text="{approvalTier}"/>
+                                            <Text text="{status}"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </IconTabFilter>
+
+                        <IconTabFilter text="Release Quotes" icon="sap-icon://money-bills">
+                            <Table id="idQuotesTable" items="{/Release_Quotes}" growing="true" growingThreshold="20">
+                                <headerToolbar>
+                                    <OverflowToolbar>
+                                        <Title text="Release Quotes" level="H4"/>
+                                        <ToolbarSpacer/>
+                                        <Text text="{counts>/quotes}"/>
+                                    </OverflowToolbar>
+                                </headerToolbar>
+                                <columns>
+                                    <Column><Text text="Vendor"/></Column>
+                                    <Column><Text text="Quote Amount"/></Column>
+                                    <Column><Text text="Currency"/></Column>
+                                    <Column><Text text="Quote Status"/></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="{vendorName}"/>
+                                            <Text text="{quoteAmount}"/>
+                                            <Text text="{currency}"/>
+                                            <Text text="{quoteStatus}"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </IconTabFilter>
+
+                        <IconTabFilter text="Audit Log" icon="sap-icon://history">
+                            <Table id="idAuditTable" items="{/Audit_Log}" growing="true" growingThreshold="20">
+                                <headerToolbar>
+                                    <OverflowToolbar>
+                                        <Title text="Audit Log" level="H4"/>
+                                        <ToolbarSpacer/>
+                                        <Text text="{counts>/audit}"/>
+                                    </OverflowToolbar>
+                                </headerToolbar>
+                                <columns>
+                                    <Column><Text text="PR Number"/></Column>
+                                    <Column><Text text="Old Approver"/></Column>
+                                    <Column><Text text="New Approver"/></Column>
+                                    <Column><Text text="Created By (SAP User)"/></Column>
+                                    <Column><Text text="Created At (System Time)"/></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="{prNumber}"/>
+                                            <Text text="{oldApprover}"/>
+                                            <Text text="{newApprover}"/>
+                                            <Text text="{createdBy}"/>
+                                            <Text text="{createdAt}"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </IconTabFilter>
+                    </items>
+                </IconTabBar>
+
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

@@ -1,0 +1,29 @@
+ID,pr_ID,vendorName,quoteAmount,currency,quoteStatus
+647d1787-0ecb-40c2-b502-5be36d1310b3,3f635e4c-bf49-4605-ba44-7b641b63cea3,Bose Pro AV,78276.52,INR,open
+e23af0ed-9285-4c56-90e4-71b0696fe120,a22ff022-160c-4223-9710-2fa882ec9ec8,Havells India,5942.32,INR,open
+c809a032-6867-413e-a5f5-9c3c539d1da0,1c92e57f-0571-4b2d-84fa-d503dccdff24,Godrej Interio,60089.46,INR,open
+024e24dd-dc0c-45ff-b5e2-a1d47bc2f449,ac4cde50-74d3-427c-b1e0-640f32ae5dcb,Voltas Ltd,59887.48,INR,closed
+bc0cece2-138b-4e73-ba7f-1609e4264127,68ce9cea-123d-4a9e-bde9-d0092204903f,Bose Pro AV,117094.91,INR,open
+29ef54db-c3f1-44fa-8d5c-52f7387e06f3,7348b768-ecb0-4cfd-8ee3-f8891ff1a327,Lenovo India,28584.84,INR,open
+39f85b9a-344f-44f0-97ed-c0e13ca85a2d,b9f85273-49be-4d04-b2ce-7b732bd7ccdf,Reliance Digital,60021.04,INR,closed
+44da329a-daa4-4e2e-bebc-3ddeec665314,b0751570-0ac9-45b5-86d9-353e748ad87f,Lenovo India,63168.89,INR,open
+9ae2b3b0-f347-4a7b-bdd8-7f0a59acd7c9,82270d91-1b45-4058-b108-155760bf86a8,Voltas Ltd,98213.52,INR,open
+83f22ef3-e7cd-42c7-991c-e341b15861e9,008def3e-0129-4388-b3cb-9c18561fc0df,Bose Pro AV,149612.24,INR,open
+6cc57e0f-f3c9-447e-baab-833cf3eeb78f,c86be56f-6d6f-4c6c-9806-28c09d7406c9,Microsoft India,66213.20,INR,open
+7f5b34d4-d345-4699-9ddd-2ed1e9f439d9,3f1838a4-e184-4996-9148-1e7d54265f3a,Reliance Digital,5470.57,INR,closed
+7a7a82f4-7b25-4eb0-a757-a7618b581df8,0a0353f7-fa06-4e4c-9db0-fa395cf2aae6,Microsoft India,48274.49,INR,closed
+decfcf07-78ce-4159-96d2-554158757107,68c0cadf-7f71-4976-9ee0-3ed270d23ffc,Blue Dart Logistics,138752.94,INR,open
+41abd39c-9f40-45df-a5df-0a4d3fc62c6c,ba667471-3121-4ba8-a503-6f40db650cb7,Godrej Interio,17419.75,INR,open
+70c05484-f58e-40e6-86b8-2108c33ef520,8a0432af-2d57-4aa4-86ec-afdd7938e2e7,Voltas Ltd,80048.50,INR,open
+e751811f-73a6-4d9d-9a83-3cce2be19902,eaa816bc-73c7-480f-ac4a-e3f4ec42e4ac,Bose Pro AV,6042.67,INR,closed
+8c8b1b99-b06f-423d-a553-ff7d7fef8d06,6bacd383-c892-44bd-827d-2193e6a41f77,Bose Pro AV,45379.20,INR,open
+c26f9947-1fcc-403f-bc15-5b865c40efd4,7a579e33-1920-467a-8f00-dc44fcdbb789,Tata Elxsi,12854.82,INR,closed
+5f381c58-452d-4568-a2ae-6ebedaf755f6,6594c9a9-54e8-4f82-9127-a4722a5d64d5,Bose Pro AV,32580.29,INR,open
+9508ca5f-da6a-45e0-b154-2aacb5a17dec,f11c4e8e-e862-432f-8a08-c795549a90ef,Havells India,63150.84,INR,open
+1550469f-bff8-47cb-a61a-d5bc61f7d4b7,c2b1da0f-b61b-436c-bc2d-dac006c65ce8,Dell India,88981.14,INR,closed
+a762c6eb-20c1-4745-887e-16da7e6d6fe2,3ec8f6e0-ec64-41f8-ba19-44c1ec0b9081,Havells India,82013.29,INR,open
+3179b626-bd06-4be1-a248-cd5645846414,47976328-feac-4787-878e-9f8efe6648d4,Zoho Corp,86957.90,INR,open
+684d4c1a-8c40-4136-9ced-e695506a41aa,35ba073a-c0e1-4de6-8279-8fcfb78c3443,Microsoft India,48499.58,INR,open
+babe8fce-5663-4e41-9d4a-853ddf2ce33b,4c207fe9-f2ef-4e7e-b5c8-6db8a0b81c0d,Godrej Interio,132494.19,INR,open
+de53826a-e26b-40bc-8f0a-0f30072fcef8,5a75b5ed-789d-46e5-a240-247453654764,Voltas Ltd,101191.36,INR,open
+683d9851-4b83-44ff-907e-f54dd3e51553,18da8919-6af5-42d5-9f11-04ad59957c4b,Tata Elxsi,54717.64,INR,closed555555,Bose Pro AV,120000.00,INR,open
